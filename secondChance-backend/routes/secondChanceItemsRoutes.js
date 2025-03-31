@@ -133,7 +133,7 @@ router.put('/:id', async (req, res, next) => {
         );
 
         // Step 5: Task 5 - Return the updated item
-        if (updatepreloveItem.value) {
+        if (updatepreloveItem) {
             res.json({ "updated": "success", "item": updatepreloveItem.value });
         } else {
             res.json({ "updated": "failed" });
