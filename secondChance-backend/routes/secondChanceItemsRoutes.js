@@ -14,7 +14,7 @@ const storage = multer.diskStorage({
   },
   filename: (req, file, cb) => {
     cb(null, file.originalname) // Use the original file name
-  },
+  }
 })
 
 const upload = multer({ storage })
@@ -23,16 +23,16 @@ const upload = multer({ storage })
 router.get('/', async (req, res, next) => {
   logger.info('/ called')
   try {
-    //Step 2: task 1 - insert code here
+    // Step 2: task 1 - insert code here
     const db = await connectToDatabase()
 
-    //Step 2: task 2 - insert code here
+    // Step 2: task 2 - insert code here
     const collection = db.collection('secondChanceItems')
 
-    //Step 2: task 3 - insert code here
+    // Step 2: task 3 - insert code here
     const secondChanceItems = await collection.find({}).toArray()
 
-    //Step 2: task 4 - insert code here
+    // Step 2: task 4 - insert code here
     res.json(secondChanceItems)
   } catch (e) {
     logger.error('Oops, something went wrong', e)
@@ -43,16 +43,16 @@ router.get('/', async (req, res, next) => {
 // Add a new item
 router.post('/', upload.single('file'), async (req, res, next) => {
   try {
-    //Step 3: task 1 - insert code here
+    // Step 3: task 1 - insert code here
     const db = await connectToDatabase()
 
-    //Step 3: task 2 - insert code here
+    // Step 3: task 2 - insert code here
     const collection = db.collection('secondChanceItems')
 
-    //Step 3: task 3 - insert code here
+    // Step 3: task 3 - insert code here
     let secondChanceItem = req.body
 
-    //Step 3: task 4 - insert code here
+    // Step 3: task 4 - insert code here
     const lastItemQuery = await collection.find().sort({ id: -1 }).limit(1).toArray()
     if (lastItemQuery.length > 0) {
       secondChanceItem.id = (parseInt(lastItemQuery[0].id, 10) + 1).toString()
@@ -60,10 +60,10 @@ router.post('/', upload.single('file'), async (req, res, next) => {
       secondChanceItem.id = '1'
     }
 
-    //Step 3: task 5 - insert code here
+    // Step 3: task 5 - insert code here
     secondChanceItem.date_added = Math.floor(Date.now() / 1000)
 
-    // Step 3: task 6 
+    // Step 3: task 6
     secondChanceItem = await collection.insertOne(secondChanceItem)
 
     res.status(201).json(secondChanceItem)
@@ -75,17 +75,17 @@ router.post('/', upload.single('file'), async (req, res, next) => {
 // Get a single secondChanceItem by ID
 router.get('/:id', async (req, res, next) => {
   try {
-    //Step 4: task 1 - insert code here
+    // Step 4: task 1 - insert code here
     const db = await connectToDatabase()
 
-    //Step 4: task 2 - insert code here
+    // Step 4: task 2 - insert code here
     const collection = db.collection('secondChanceItems')
 
-    //Step 4: task 3 - insert code here
+    // Step 4: task 3 - insert code here
     const { id } = req.params
     const secondChanceItem = await collection.findOne({ id })
 
-    //Step 4: task 4 - insert code here
+    // Step 4: task 4 - insert code here
     if (!secondChanceItem) {
       return res.status(404).send('secondChanceItem not found')
     }
@@ -121,7 +121,7 @@ router.put('/:id', async (req, res, next) => {
       age_days: req.body.age_days,
       description: req.body.description,
       age_years: Number((req.body.age_days / 365).toFixed(1)), // Calculate age in years
-      updatedAt: new Date(),
+      updatedAt: new Date()
     }
 
     const updateResult = await collection.findOneAndUpdate(
@@ -144,13 +144,13 @@ router.put('/:id', async (req, res, next) => {
 // Delete an existing item
 router.delete('/:id', async (req, res, next) => {
   try {
-    //Step 6: task 1 - insert code here
+    // Step 6: task 1 - insert code here
     const db = await connectToDatabase()
 
-    //Step 6: task 2 - insert code here
+    // Step 6: task 2 - insert code here
     const collection = db.collection('secondChanceItems')
 
-    //Step 6: task 3 - insert code here
+    // Step 6: task 3 - insert code here
     const { id } = req.params
     const secondChanceItem = await collection.findOne({ id })
 
@@ -159,7 +159,7 @@ router.delete('/:id', async (req, res, next) => {
       return res.status(404).json({ error: 'secondChanceItem not found' })
     }
 
-    //Step 6: task 4 - insert code here
+    // Step 6: task 4 - insert code here
     await collection.deleteOne({ id })
     res.json({ deleted: 'success' })
   } catch (e) {
