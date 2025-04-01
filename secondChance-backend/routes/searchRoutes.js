@@ -12,6 +12,7 @@ router.get('/', async (req, res, next) => {
     const collection = db.collection(process.env.MONGO_COLLECTION)
 
     // Initialize the query object
+    // eslint-disable-next-line no-unused-vars
     let query = {}
 
     // Add the name filter to the query if the name parameter is not empty
