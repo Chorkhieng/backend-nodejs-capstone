@@ -13,7 +13,7 @@ router.get('/', async (req, res, next) => {
 
     // Initialize the query object
     // eslint-disable-next-line no-unused-vars
-    let query = { name: '', category: '', condition: '', age_years: '' }
+    const query = {}
 
     // Add the name filter to the query if the name parameter is not empty
     if (req.query.name && req.query.name.trim() !== '') {
