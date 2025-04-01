@@ -3,6 +3,8 @@ const multer = require('multer')
 const router = express.Router()
 const connectToDatabase = require('../models/db')
 const logger = require('../logger')
+require('../util/import-mongo/index')
+require('../util/import-mongo/secondChanceItems.json')
 
 // Define the upload directory path
 const directoryPath = 'public/images'
